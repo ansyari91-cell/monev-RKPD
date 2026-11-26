@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Dokumen Monev RKPD</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --accent: #0284c7;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --success-bg: #dcfce7;
+      --success-text: #166534;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Header / Banner */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
+      color: #ffffff;
+      padding: 2.5rem 1.25rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: #dbeafe;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* Kontainer Utama */
+    .container {
+      max-width: 1040px;
+      margin: -1.5rem auto 3rem;
+      padding: 0 1rem;
+    }
+
+    /* Panel Filter & Pencarian */
+    .filter-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.15rem;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-card input,
+    .filter-card select {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: var(--text);
+      background-color: #fff;
+      transition: border-color 0.2s;
+    }
+
+    .filter-card input:focus,
+    .filter-card select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* Tabel Dokumen */
+    .table-wrapper {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow-x: auto;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+
+    thead {
+      background-color: #f1f5f9;
+      border-bottom: 2px solid var(--border);
+    }
+
+    th {
+      padding: 0.9rem 1rem;
+      font-weight: 600;
+      color: #334155;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 0.95rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tbody tr:hover {
+      background-color: #f8fafc;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Badge & Tombol */
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border-radius: 999px;
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .badge-status {
+      background-color: var(--success-bg);
+      color: var(--success-text);
+    }
+
+    .doc-title {
+      font-weight: 600;
+      color: var(--text);
+      display: block;
+    }
+
+    .doc-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .btn-link {
+      display: inline-block;
+      padding: 0.45rem 0.85rem;
+      background-color: var(--primary);
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: background-color 0.2s;
+    }
+
+    .btn-link:hover {
+      background-color: #1e40af;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--muted);
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem 2.5rem;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    /* Responsif untuk layar ponsel */
+    @media (max-width: 720px) {
+      .filter-card {
+        grid-template-columns: 1fr;
+      }
+      header h1 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Portal Dokumen Monev RKPD</h1>
+    <p>Arsip Digital Laporan Monitoring dan Evaluasi Pelaksanaan Rencana Kerja Pemerintah Daerah</p>
+  </header>
+
+  <main class="container">
+    <!-- Filter & Pencarian -->
+    <section class="filter-card" aria-label="Filter Dokumen">
+      <input type="text" id="searchInput" placeholder="Cari judul dokumen atau keterangan..." />
+      
+      <select id="tahunFilter">
+        <option value="">Semua Tahun</option>
+        <option value="2026">Tahun 2026</option>
+        <option value="2025">Tahun 2025</option>
+      </select>
+
+      <select id="periodeFilter">
+        <option value="">Semua Periode</option>
+        <option value="Triwulan I">Triwulan I</option>
+        <option value="Triwulan II">Triwulan II</option>
+        <option value="Triwulan III">Triwulan III</option>
+        <option value="Triwulan IV">Triwulan IV</option>
+        <option value="Tahunan">Evaluasi Tahunan</option>
+      </select>
+    </section>
+
+    <!-- Daftar Dokumen -->
+    <section class="table-wrapper">
+      <table id="docTable">
+        <thead>
+          <tr>
+            <th style="width: 5%;">No</th>
+            <th style="width: 45%;">Nama Dokumen</th>
+            <th style="width: 12%;">Tahun</th>
+            <th style="width: 15%;">Periode</th>
+            <th style="width: 11%;">Status</th>
+            <th style="width: 12%;">Tautan</th>
+          </tr>
+        </thead>
+        <tbody id="docBody">
+          <!-- BARIS DOKUMEN 1 -->
+          <tr data-tahun="2026" data-periode="Triwulan II">
+            <td>1</td>
+            <td>
+              <span class="doc-title">Laporan Hasil Evaluasi RKPD Triwulan II Tahun 2026</span>
+              <span class="doc-sub">Rekapitulasi Capaian Kinerja Program & Realisasi Anggaran SKPD (PDF)</span>
+            </td>
+            <td>2026</td>
+            <td><span class="badge">Triwulan II</span></td>
+            <td><span class="badge badge-status">Final</span></td>
+            <td><a href="https://drive.google.com/" target="_blank" rel="noopener" class="btn-link">Buka Dokumen</a></td>
+          </tr>
+
+          <!-- BARIS DOKUMEN 2 -->
+          <tr data-tahun="2026" data-periode="Triwulan I">
+            <td>2</td>
+            <td>
+              <span class="doc-title">Laporan Hasil Evaluasi RKPD Triwulan I Tahun 2026</span>
+              <span class="doc-sub">Monitoring Awal Tahun Anggaran & Tindak Lanjut Rekomendasi (PDF)</span>
+            </td>
+            <td>2026</td>
+            <td><span class="badge">Triwulan I</span></td>
+            <td><span class="badge badge-status">Final</span></td>
+            <td><a href="https://drive.google.com/" target="_blank" rel="noopener" class="btn-link">Buka Dokumen</a></td>
+          </tr>
+
+          <!-- BARIS DOKUMEN 3 -->
+          <tr data-tahun="2025" data-periode="Tahunan">
+            <td>3</td>
+            <td>
+              <span class="doc-title">Laporan Evaluasi Pelaksanaan RKPD Tahun 2025</span>
+              <span class="doc-sub">Evaluasi Akhir Tahun & Capaian Indikator Kinerja Utama Daerah (PDF)</span>
+            </td>
+            <td>2025</td>
+            <td><span class="badge">Tahunan</span></td>
+            <td><span class="badge badge-status">Final</span></td>
+            <td><a href="https://drive.google.com/" target="_blank" rel="noopener" class="btn-link">Buka Dokumen</a></td>
+          </tr>
+
+          <!-- BARIS DOKUMEN 4 -->
+          <tr data-tahun="2025" data-periode="Triwulan IV">
+            <td>4</td>
+            <td>
+              <span class="doc-title">Matriks Realisasi Kinerja RKPD Triwulan IV Tahun 2025</span>
+              <span class="doc-sub">Data Rincian Perangkat Daerah Hasil Desk Evaluasi (XLSX / PDF)</span>
+            </td>
+            <td>2025</td>
+            <td><span class="badge">Triwulan IV</span></td>
+            <td><span class="badge badge-status">Final</span></td>
+            <td><a href="https://drive.google.com/" target="_blank" rel="noopener" class="btn-link">Buka Dokumen</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div id="emptyState" class="empty-state">
+        Tidak ada dokumen yang sesuai dengan kata kunci atau filter yang dipilih.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Bidang Perencanaan, Pengendalian dan Evaluasi Pembangunan Daerah &bull; Diperbarui Berkala
+  </footer>
+
+  <!-- Script Pencarian & Filter Sederhana -->
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const tahunFilter = document.getElementById('tahunFilter');
+    const periodeFilter = document.getElementById('periodeFilter');
+    const rows = document.querySelectorAll('#docBody tr');
+    const emptyState = document.getElementById('emptyState');
+
+    function filterDocuments() {
+      const keyword = searchInput.value.toLowerCase().trim();
+      const selectedTahun = tahunFilter.value;
+      const selectedPeriode = periodeFilter.value;
+      let visibleCount = 0;
+
+      rows.forEach((row) => {
+        const text = row.innerText.toLowerCase();
+        const rowTahun = row.getAttribute('data-tahun');
+        const rowPeriode = row.getAttribute('data-periode');
+
+        const matchKeyword = text.includes(keyword);
+        const matchTahun = !selectedTahun || rowTahun === selectedTahun;
+        const matchPeriode = !selectedPeriode || rowPeriode === selectedPeriode;
+
+        if (matchKeyword && matchTahun && matchPeriode) {
+          row.style.display = '';
+          visibleCount++;
+          row.cells[0].textContent = visibleCount; // Perbarui nomor urut otomatis
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    searchInput.addEventListener('input', filterDocuments);
+    tahunFilter.addEventListener('change', filterDocuments);
+    periodeFilter.addEventListener('change', filterDocuments);
+  </script>
+
+</body>
+</html>
